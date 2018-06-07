@@ -50,8 +50,8 @@ public class Cliente implements Serializable {
 	/*
 	 * Aquí la relación es en ambos sentidos. Puedo crear un cliente sin tener aún asignada una factura  
 	 * Al colocar el mapeo, se generará automáticamente la llave foránea en la tabla Facturas (cliente_id) de forma automática 
-	 * */
-	@OneToMany(mappedBy="cliente" ,fetch=FetchType.LAZY, cascade=CascadeType.ALL) //si borro un cliente, borrar todas sus facturas
+	 * */	
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Factura> facturas;
 	
 	public Long getId() {
