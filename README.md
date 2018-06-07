@@ -12,9 +12,11 @@ ROLE_ADMIN y ROLE_USER
 # Funcionalidades
 
               ROLE_USER        ROLE_ADMIN
-Listar clientes        X                     X
-CRUD Clientes                                X
-CRUD Facturas                                X
+Listar clientes		X		X
+
+CRUD Clientes					X
+
+CRUD Facturas					X
 
 La info de facturas de puede exportar a PDF y XML
 
