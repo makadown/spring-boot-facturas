@@ -21,7 +21,8 @@
 						class="btn btn-primary btn-xs" th:text="#{text.cliente.crear}">crear
 						cliente</a>
 					<a th:href="@{'/listar'(format=csv)}" class="btn btn-primary btn-xs float-right mx-1">CSV</a>
-					<a th:href="@{'/listar'(format=xml)}" class="btn btn-success btn-xs float-right" >XML</a>
+					<a th:href="@{'/listar'(format=xml)}" class="btn btn-success btn-xs float-right mx-1" >XML</a>
+					<a th:href="@{'/listar'(format=json)}" class="btn btn-warning btn-xs float-right mx-1" >JSON</a>
 						
 				</h4>
 				<table class="table table-striped table-bordered">
