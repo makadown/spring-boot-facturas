@@ -2,6 +2,8 @@ package com.makadown.springboot.app.models.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Mario Serrano
  */
@@ -26,6 +28,7 @@ public class ItemFactura implements java.io.Serializable {
      * */    
     @ManyToOne( fetch=FetchType.LAZY )
     @JoinColumn(name="producto_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Producto producto;
 
 	public Integer getCantidad() {

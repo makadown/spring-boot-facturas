@@ -3,6 +3,11 @@ package com.makadown.springboot.app.models.entity;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
  
 
 /**
@@ -20,8 +25,11 @@ public class Producto implements java.io.Serializable {
 	private String nombre;
 	private Double precio;
 	
+	@NotNull
 	@Column(name = "create_at")
-	@Temporal(TemporalType.DATE)	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")	
 	private Date createAt;
 	
 	@PrePersist

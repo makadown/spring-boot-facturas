@@ -19,7 +19,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
-import javax.xml.bind.annotation.XmlTransient; 
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat; 
 
 /**
  * @author Mario Serrano
@@ -45,8 +51,11 @@ public class Factura implements java.io.Serializable {
     private String descripcion; 
     private String observacion; 
          
+    @NotNull
 	@Column(name = "create_at")
-	@Temporal(TemporalType.DATE)	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createAt; 
 	
 	@PrePersist
@@ -56,6 +65,7 @@ public class Factura implements java.io.Serializable {
 	}
     
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonBackReference
     private Cliente cliente;   
 		
 	/* Con JoinColumn, seindica que la relación es en 1 solo sentido. Factura con ItemFactura 

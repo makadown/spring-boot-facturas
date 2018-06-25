@@ -19,8 +19,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore; 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference; 
 
 /*
  * OJO:
@@ -51,8 +55,11 @@ public class Cliente implements Serializable {
 	@Email
 	private String email;
 	
+	@NotNull
 	@Column(name = "create_at")
-	@Temporal(TemporalType.DATE)	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date createAt;
 	
 	@PrePersist
@@ -68,7 +75,7 @@ public class Cliente implements Serializable {
 	 * Al colocar el mapeo, se generará automáticamente la llave foránea en la tabla Facturas (cliente_id) de forma automática 
 	 * */	
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
+	@JsonManagedReference
 	private List<Factura> facturas;
 	
 	public Long getId() {
