@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +41,7 @@ import com.makadown.springboot.app.models.entity.Cliente;
 import com.makadown.springboot.app.models.service.IClienteService;
 import com.makadown.springboot.app.models.service.IUploadFileService;
 import com.makadown.springboot.app.util.paginator.PageRender;
+import com.makadown.springboot.app.view.xml.ClienteList;
 
 @Controller
 @SessionAttributes("cliente") // con este sessionAttribute ya no haria un hidden id en formulario
@@ -71,6 +73,12 @@ public class ClienteController {
 		model.put("titulo", messageSource.getMessage("text.cliente.detalle.titulo", null, locale).concat(": ")
 				.concat(cliente.getNombre()));
 		return "ver";
+	}
+	
+	
+	@GetMapping(value = "/listar-rest" )
+	public @ResponseBody ClienteList listarRest( ) {
+		return new ClienteList(clienteService.findAll());
 	}
 
 	@RequestMapping(value = { "/listar", "/" }, method = RequestMethod.GET)
