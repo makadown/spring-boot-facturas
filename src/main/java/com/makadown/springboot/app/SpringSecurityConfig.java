@@ -1,6 +1,5 @@
 package com.makadown.springboot.app;
 
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -44,7 +44,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().successHandler(successHandler).loginPage("/login").permitAll()
 			.and()
 			.logout().permitAll().and()
-            .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+            .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+            .and()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+		/* Deshabilitamos la proteccion csrf porque usaremos json web tokens 
+		 * csrf se usa mas para formularios.
+		 * */
 		
 		// los accesos estan configurados con anotaciones. Checar las clases.
 	}
