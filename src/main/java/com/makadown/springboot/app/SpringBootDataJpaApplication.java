@@ -13,10 +13,10 @@ public class SpringBootDataJpaApplication implements CommandLineRunner {
 	
 	@Autowired
 	IUploadFileService uploadFileService;
-	
+	/*
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
-
+*/
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootDataJpaApplication.class, args);
 	}
@@ -34,6 +34,7 @@ public class SpringBootDataJpaApplication implements CommandLineRunner {
 			//String bcryptPassword = passwordEncoder.encode(password);
 			//System.out.println(bcryptPassword);
 		//}
-		
+		// para este pass dummy deberia regresar por ej.  
+		// $2a$10$Mz1vulRz/DafMXHiOJc6GefjlBz5JG3SULR.RIDnsKvCBFDV1DYdS
 	}
 }

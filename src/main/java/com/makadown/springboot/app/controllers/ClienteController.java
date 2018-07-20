@@ -84,35 +84,7 @@ public class ClienteController {
 	@RequestMapping(value = { "/listar", "/" }, method = RequestMethod.GET)
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
 			Authentication authentication, HttpServletRequest request, Locale locale) {
-
-		if (authentication != null) {
-			logger.info("Hola usuario autenticado, tu username es: " + authentication.getName());
-		}
-
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (hasRole("ROLE_ADMIN")) {
-			logger.info("Usando SecurityContextHolder " + auth.getName() + " tiene acceso a todo.");
-		} else {
-			logger.info("Usando SecurityContextHolder " + auth.getName() + " sin acceso a todo.");
-		}
-
-		SecurityContextHolderAwareRequestWrapper securityContext = new SecurityContextHolderAwareRequestWrapper(request,
-				"ROLE_");
-
-		if (securityContext.isUserInRole("ADMIN")) {
-			logger.info(
-					"Usando el SecurityContextHolderAwareRequestWrapper " + auth.getName() + " tiene acceso a todo.");
-		} else {
-			logger.info("Usando el SecurityContextHolderAwareRequestWrapper " + auth.getName()
-					+ " NO tiene acceso a todo.");
-		}
-
-		if (request.isUserInRole("ROLE_ADMIN")) {
-			logger.info("Usando el HttpServletRequest " + auth.getName() + " tiene acceso a todo.");
-		} else {
-			logger.info("Usando el HttpServletRequest " + auth.getName() + " NO tiene acceso a todo.");
-		}
-
+		
 		Pageable pageRequest = PageRequest.of(page, 5);
 		Page<Cliente> clientes = clienteService.findAll(pageRequest);
 

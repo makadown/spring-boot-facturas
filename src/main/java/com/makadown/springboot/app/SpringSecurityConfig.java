@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import com.makadown.springboot.app.auth.filter.JWTAuthenticationFilter;
 import com.makadown.springboot.app.auth.handler.LoginSuccessHandler;
 import com.makadown.springboot.app.models.service.JpaUserDetailsService;
 
@@ -21,8 +22,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
     private AccessDeniedHandler accessDeniedHandler; 
 	
+	
+	/* Para enviar con el pass con BCrypt */
+	/*
 	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+	BCryptPasswordEncoder passwordEncoder;*/
+	
+	/* Para enviar el pass con texto plano */
+	@Autowired
+	PlainTextPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private JpaUserDetailsService userDetailsService;
@@ -36,16 +44,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		// todo sobre /src/main/resources/static
 		http.authorizeRequests()
 		    .antMatchers("/", "/css/**", "/js/**", "/images/**",
-		    		     "/listar-rest", "/api/clientes/**",
+		    		     "/listar-rest",
 		    		     "/listar", "/locale").permitAll() 
 				.antMatchers("/uploads/**").hasAnyRole("USER")
 			.anyRequest().authenticated()
-			.and()
+			/*.and()
 			.formLogin().successHandler(successHandler).loginPage("/login").permitAll()
 			.and()
 			.logout().permitAll().and()
-            .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+            .exceptionHandling().accessDeniedHandler(accessDeniedHandler)*/
             .and()
+            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
@@ -56,6 +65,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		// los accesos estan configurados con anotaciones. Checar las clases.
 	}
 
+	
 	@Autowired
 	public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception{		 
 		
