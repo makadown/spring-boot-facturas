@@ -36,7 +36,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		// todo sobre /src/main/resources/static
 		http.authorizeRequests()
 		    .antMatchers("/", "/css/**", "/js/**", "/images/**",
-		    		     "/listar-rest", 
+		    		     "/listar-rest", "/api/clientes/**",
 		    		     "/listar", "/locale").permitAll() 
 				.antMatchers("/uploads/**").hasAnyRole("USER")
 			.anyRequest().authenticated()
