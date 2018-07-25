@@ -1,6 +1,8 @@
 package com.makadown.springboot.app.auth.filter;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,12 +15,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -62,9 +66,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		// Recibimos el authResult que contiene los datos del usuario
 		String username = ((User) authResult.getPrincipal() ).getUsername();
+		long UnaHora = 3600000;
+		
+		Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
+		
+		Claims claims = Jwts.claims();
+		// agrego a los claims los roles en forma JSON
+		claims.put("authorities", new ObjectMapper().writeValueAsString(roles) );
 
 		String token = 
-				Jwts.builder().setSubject(username).signWith( SignatureAlgorithm.HS512, "mi.clave.secreta.papu".getBytes() ).compact();
+				Jwts.builder().setClaims(claims)
+				.setSubject(username).signWith( SignatureAlgorithm.HS512, "mi.clave.secreta.papu".getBytes() )
+				.setIssuedAt(new Date())
+				.setExpiration( new Date(  System.currentTimeMillis() + ( UnaHora *  4L )  ) )
+				.compact();
 		
 		// Guardamos token generado en parametro Authorization
 		response.addHeader("Authorization", "Bearer " + token); // ES IMPORTANTE que tenga al inicio el string "Bearer " con todo y espacio!
