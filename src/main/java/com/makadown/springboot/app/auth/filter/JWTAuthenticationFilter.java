@@ -117,7 +117,40 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		response.setStatus(200);
 		response.setContentType("application/json");
 	}
-	
-	
 
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException failed) throws IOException, ServletException {
+		Map<String, Object> body = new HashMap<String, Object>();
+		
+		body.put("mensaje", "Error de autenticación: credenciales incorrectas");
+		body.put("error", failed.getMessage());
+		// convierte el body a json
+		response.getWriter().write( new ObjectMapper().writeValueAsString(body) );
+		response.setStatus(401); // Unauthorized
+		response.setContentType("application/json");
+		
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
