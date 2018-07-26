@@ -8,10 +8,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import com.makadown.springboot.app.auth.filter.JWTAuthenticationFilter;
+import com.makadown.springboot.app.auth.filter.JWTAuthorizationFilter;
 import com.makadown.springboot.app.auth.handler.LoginSuccessHandler;
 import com.makadown.springboot.app.models.service.JpaUserDetailsService;
 
@@ -55,6 +55,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().accessDeniedHandler(accessDeniedHandler)*/
             .and()
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+            .addFilter(new JWTAuthorizationFilter(authenticationManager()))
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
