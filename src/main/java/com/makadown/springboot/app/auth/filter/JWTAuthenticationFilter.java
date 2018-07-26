@@ -20,13 +20,21 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.makadown.springboot.app.models.entity.Usuario;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	
+	private final Logger log = LoggerFactory.getLogger(getClass());
 	
 	private AuthenticationManager authenticationManager;	
 
@@ -53,6 +61,19 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		}
 		
 		// logger.info("Username:  " + username + "    -   Password:  " + password );
+		if (username.equals("") && password.equals("")) {
+			/* Reviso si lo estoy recibiendo por RAW Json */
+			Usuario user = null;
+			try {
+				user = new ObjectMapper().readValue( request.getInputStream(), Usuario.class);
+				username = user.getUsername();
+				password = user.getPassword();
+				
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+			
+		}		
 
 		username = username.trim();
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
