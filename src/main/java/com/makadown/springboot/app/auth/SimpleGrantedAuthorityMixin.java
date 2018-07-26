@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Esta clase es auxiliar para evitar un error en el JWTAuthorization filter donde no se 
  * puede instanciar de SimpleGrantedAuthority .
  * */
-public abstract class SimpleGrantedAuthoritiesMixin {
+public abstract class SimpleGrantedAuthorityMixin {
 
 	@JsonCreator
-	public SimpleGrantedAuthoritiesMixin(@JsonProperty("authority") String role) {
+	public SimpleGrantedAuthorityMixin(@JsonProperty("authority") String role) {
 	}
 
 }
