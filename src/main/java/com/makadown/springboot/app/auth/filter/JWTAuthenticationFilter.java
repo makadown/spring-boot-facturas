@@ -21,6 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makadown.springboot.app.auth.service.JWTService;
+import com.makadown.springboot.app.auth.service.JWTServiceImpl;
 import com.makadown.springboot.app.models.entity.Usuario;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -81,7 +82,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String token = jwtService.create(authResult);
 		
 		// Guardamos token generado en parametro Authorization
-		response.addHeader("Authorization", "Bearer " + token); // ES IMPORTANTE que tenga al inicio el string "Bearer " con todo y espacio!
+		response.addHeader(JWTServiceImpl.HEADER_STRING, JWTServiceImpl.TOKEN_PREFIX + token); // ES IMPORTANTE que tenga al inicio el string "Bearer " con todo y espacio!
 		
 		// Creado un map que se transformará en contenido json
 		Map<String, Object> body = new HashMap<String, Object>();
