@@ -13,6 +13,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import com.makadown.springboot.app.auth.filter.JWTAuthenticationFilter;
 import com.makadown.springboot.app.auth.filter.JWTAuthorizationFilter;
 import com.makadown.springboot.app.auth.handler.LoginSuccessHandler;
+import com.makadown.springboot.app.auth.service.JWTService;
 import com.makadown.springboot.app.models.service.JpaUserDetailsService;
 
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
@@ -35,8 +36,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JpaUserDetailsService userDetailsService;
 	
+	/*@Autowired
+	private LoginSuccessHandler successHandler;*/
+	
 	@Autowired
-	private LoginSuccessHandler successHandler;
+	private JWTService jwtService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -54,8 +58,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout().permitAll().and()
             .exceptionHandling().accessDeniedHandler(accessDeniedHandler)*/
             .and()
-            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-            .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+            .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtService))
+            .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtService))
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
