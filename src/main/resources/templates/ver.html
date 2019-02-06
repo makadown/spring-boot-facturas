@@ -3,7 +3,9 @@
 <head th:replace="layout/layout :: head"></head>
 <body>
 
-	<header th:replace="layout/layout :: navegacion"></header>
+    <div id="i18n_eliminar_factura" th:text="#{text.cliente.factura.eliminarOk}" style="display: none;"></div>
+    
+	<header th:replace="layout/layout :: header"></header>
 
 	<div class="container py-4">
 

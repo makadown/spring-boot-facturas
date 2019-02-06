@@ -3,19 +3,16 @@
 <head th:replace="layout/layout :: head"></head>
 <body>
 
-	<header th:replace="layout/layout :: navegacion"></header>
+	<header th:replace="layout/layout :: header"></header>
 
 	<div class="container py-4">
-
 		<div class="card bg-light">
-
 			<div class="card-header" th:text="${titulo}"></div>
 			<div class="card-body">
-
 				<h4 class="card-title">
 					<a class="btn btn-light btn-xs"
-						th:href="@{/ver/} + ${factura.cliente.id}"
-						th:text="#{text.global.volver}"></a>
+						th:href="@{'/ver/' + ${factura.cliente.id}}"
+						th:utext="#{text.global.volver}"></a>
 				</h4>
 
 				<form th:action="@{/factura/form/}" th:object="${factura}"
@@ -82,6 +79,7 @@
 						</div>
 					</div>
 				</form>
+
 
 			</div>
 		</div>
